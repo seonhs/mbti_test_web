@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>나와 닮은 소울 푸드 찾기 | MBTI 미식 성향 테스트</title>
+  <meta name="description" content="일상 속 10가지 선택으로 알아보는 나의 MBTI 소울 푸드 분석 리포트">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#fff1f2',
+              100: '#ffe4e6',
+              500: '#f43f5e',
+              600: '#e11d48',
+              700: '#be123c',
+            }
+          },
+          animation: {
+            'bounce-slow': 'bounce 2.5s infinite',
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 9999px;
+    }
+    .hidden {
+      display: none !important;
+    }
+    button {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body class="bg-stone-900 text-stone-100 min-h-screen flex justify-center items-center p-0 sm:p-4 selection:bg-rose-500 selection:text-white">
+
+  <!-- App Shell Container -->
+  <main class="w-full max-w-lg min-h-screen sm:min-h-[860px] bg-stone-950 sm:border border-stone-800 sm:rounded-3xl shadow-2xl flex flex-col justify-between overflow-hidden relative">
+
+    <!-- Top Navigation Bar -->
+    <header class="px-5 py-4 border-b border-stone-800/80 bg-stone-950/90 backdrop-blur sticky top-0 z-30 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5 cursor-pointer" id="nav-home">
+        <span class="text-2xl">🍲</span>
+        <div>
+          <span class="text-xs uppercase tracking-wider text-rose-400 font-extrabold block">Gourmet MBTI</span>
+          <h1 class="text-sm font-bold text-stone-200">나와 닮은 소울 푸드</h1>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <button id="sound-toggle-btn" class="p-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200 transition border border-stone-800 text-xs flex items-center gap-1 cursor-pointer" title="효과음 켜기/끄기">
+          <span id="sound-icon">🔊</span>
+        </button>
+        <button id="open-encyclopedia-btn" class="px-3 py-1.5 rounded-xl bg-rose-950/60 hover:bg-rose-900/60 text-rose-300 transition border border-rose-900/50 text-xs font-semibold flex items-center gap-1 cursor-pointer">
+          <span>📖</span>
+          <span>16도감</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Progress Indicator (Hidden on Intro & Result) -->
+    <div id="progress-container" style="display: none;" class="w-full bg-stone-900 h-1.5 sticky top-[61px] z-20">
+      <div id="progress-bar" class="bg-gradient-to-r from-amber-500 via-rose-500 to-pink-500 h-1.5 transition-all duration-300 ease-out" style="width: 0%"></div>
+    </div>
+
+    <!-- MAIN VIEWPORT -->
+    <div class="flex-1 flex flex-col justify-center p-5 md:p-7 relative z-10 overflow-y-auto custom-scrollbar">
+
+      <!-- 1. INTRO SCREEN -->
+      <section id="screen-intro" class="space-y-7 text-center py-4 my-auto">
+        <div class="space-y-3">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-bold tracking-wide">
+            <span>✨</span> 심리 분석가 & 미식 큐레이터
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+            당신의 일상 선택은<br>
+            <span class="bg-gradient-to-r from-amber-400 via-rose-400 to-pink-400 bg-clip-text text-transparent">어떤 맛</span>을 닮았을까요?
+          </h2>
+          <p class="text-xs sm:text-sm text-stone-400 max-w-sm mx-auto leading-relaxed">
+            주말 루틴부터 여행 스타일, 친구와의 대화법까지!<br>
+            10가지 일상 속 결정으로 당신의 <strong>MBTI 소울 푸드</strong>를 정밀 분석합니다.
+          </p>
+        </div>
+
+        <!-- 4 Axes Preview -->
+        <div class="grid grid-cols-2 gap-2.5 text-left text-xs">
+          <div class="p-3 rounded-2xl bg-stone-900/90 border border-stone-800/80 space-y-1">
+            <span class="text-rose-400 font-bold block">E vs I (에너지)</span>
+            <span class="text-stone-400 text-[11px] leading-tight block">왁자지껄 뷔페파 vs 심야식당파</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-stone-900/90 border border-stone-800/80 space-y-1">
+            <span class="text-amber-400 font-bold block">S vs N (인식)</span>
+            <span class="text-stone-400 text-[11px] leading-tight block">아는 맛 최고파 vs 퓨전 탐험파</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-stone-900/90 border border-stone-800/80 space-y-1">
+            <span class="text-blue-400 font-bold block">T vs F (판단)</span>
+            <span class="text-stone-400 text-[11px] leading-tight block">영양·가성비 논리파 vs 소울 공감파</span>
+          </div>
+          <div class="p-3 rounded-2xl bg-stone-900/90 border border-stone-800/80 space-y-1">
+            <span class="text-emerald-400 font-bold block">J vs P (생활)</span>
+            <span class="text-stone-400 text-[11px] leading-tight block">레시피 엄수 루틴파 vs 즉흥 레시피파</span>
+          </div>
+        </div>
+
+        <!-- Start Button -->
+        <div class="space-y-3 pt-2">
+          <button id="btn-start" type="button" class="w-full py-4 px-6 rounded-2xl font-bold text-white bg-gradient-to-r from-rose-600 via-rose-500 to-amber-600 hover:opacity-95 shadow-lg shadow-rose-600/30 transition-all transform active:scale-[0.98] text-base flex items-center justify-center gap-2 cursor-pointer">
+            <span>테스트 시작하기</span>
+            <span class="text-lg">👉</span>
+          </button>
+          <span class="text-[11px] text-stone-500 block">총 10문항 · 약 1분 소요 · 별도 로그인 없음</span>
+        </div>
+      </section>
+
+      <!-- 2. QUIZ SCREEN -->
+      <section id="screen-quiz" style="display: none;" class="space-y-6 py-2 my-auto">
+        <div class="flex items-center justify-between text-xs">
+          <div class="flex items-center space-x-2">
+            <span id="quiz-icon" class="text-xl">🌅</span>
+            <span id="quiz-category" class="px-2.5 py-1 rounded-lg bg-stone-900 text-stone-400 font-semibold border border-stone-800">카테고리</span>
+          </div>
+          <span id="quiz-counter" class="font-bold text-rose-400 tracking-wider">Q. 01 / 10</span>
+        </div>
+
+        <div class="space-y-2">
+          <h3 id="quiz-question" class="text-lg sm:text-xl font-bold text-stone-100 leading-snug break-keep min-h-[56px] flex items-center">
+            질문 텍스트가 표시됩니다.
+          </h3>
+        </div>
+
+        <!-- Options Container -->
+        <div id="quiz-options" class="space-y-3">
+          <!-- Dynamically injected option buttons -->
+        </div>
+
+        <div class="flex items-center justify-between pt-2 text-xs">
+          <button id="btn-prev-question" type="button" class="px-3.5 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-stone-200 border border-stone-800 transition flex items-center gap-1 cursor-pointer">
+            <span>←</span> 이전 질문
+          </button>
+          <span class="text-stone-500 text-[11px]">보기를 클릭하면 자동 이동합니다</span>
+        </div>
+      </section>
+
+      <!-- 3. LOADING SCREEN -->
+      <section id="screen-loading" style="display: none;" class="text-center space-y-6 py-12 my-auto">
+        <div class="relative w-24 h-24 mx-auto flex items-center justify-center">
+          <div class="absolute inset-0 rounded-full border-4 border-stone-800 border-t-rose-500 animate-spin"></div>
+          <span class="text-4xl animate-bounce">🍳</span>
+        </div>
+        <div class="space-y-2">
+          <h3 class="text-xl font-extrabold text-white">미식 프로필 끓여내는 중...</h3>
+          <p id="loading-tip" class="text-xs text-stone-400 animate-pulse-slow">
+            당신의 일상 선택 10가지를 성향 매트릭스에 배합하고 있습니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- 4. RESULT SCREEN -->
+      <section id="screen-result" style="display: none;" class="space-y-6 py-4">
+        
+        <!-- Result Card for Capture -->
+        <div id="result-capture-card" class="rounded-3xl bg-stone-900/90 border border-stone-800 p-5 sm:p-6 space-y-5 shadow-2xl relative overflow-hidden">
+          
+          <!-- Top Badge Header -->
+          <div class="text-center space-y-2 relative z-10">
+            <span class="inline-block text-[11px] font-extrabold uppercase tracking-widest text-rose-400 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20">
+              Gourmet Soul Food Report
+            </span>
+            <div id="result-emoji" class="text-6xl sm:text-7xl pt-2 pb-1 filter drop-shadow">🍲</div>
+            <p id="result-title-tag" class="text-xs font-semibold text-stone-400">정갈하고 신뢰를 주는 뚝배기</p>
+            <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center justify-center gap-2">
+              <span id="result-food-name">전통 곰탕</span>
+              <span id="result-mbti" class="text-rose-500 text-xl font-black px-2 py-0.5 rounded-lg bg-rose-500/10 border border-rose-500/20">ISTJ</span>
+            </h2>
+            <p id="result-summary" class="text-xs sm:text-sm italic text-stone-300 max-w-sm mx-auto leading-relaxed pt-1">
+              "오랜 시간 푹 고아내어 한결같은 깊이를 전하는 맑고 든든한 곰탕 같은 사람입니다."
+            </p>
+            <div id="result-keywords" class="flex flex-wrap justify-center gap-1.5 pt-2">
+              <!-- Keyword badges injected -->
+            </div>
+          </div>
+
+          <!-- MBTI 4-Scale Gauge Breakdown -->
+          <div class="p-4 rounded-2xl bg-stone-950/70 border border-stone-800/80 space-y-3">
+            <div class="text-xs font-bold text-stone-400 flex justify-between items-center">
+              <span>📊 성향 척도 밸런스</span>
+              <span class="text-[10px] text-stone-500">나의 선택 비율</span>
+            </div>
+            
+            <!-- E vs I -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] font-semibold text-stone-300">
+                <span>E (외향/뷔페) <strong id="gauge-e-val">50%</strong></span>
+                <span><strong id="gauge-i-val">50%</strong> I (내향/심야식당)</span>
+              </div>
+              <div class="w-full bg-stone-800 h-2 rounded-full overflow-hidden flex">
+                <div id="gauge-e-bar" class="bg-rose-500 h-full transition-all duration-500" style="width: 50%"></div>
+                <div id="gauge-i-bar" class="bg-indigo-500 h-full transition-all duration-500" style="width: 50%"></div>
+              </div>
+            </div>
+
+            <!-- S vs N -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] font-semibold text-stone-300">
+                <span>S (현실/아는맛) <strong id="gauge-s-val">50%</strong></span>
+                <span><strong id="gauge-n-val">50%</strong> N (직관/퓨전)</span>
+              </div>
+              <div class="w-full bg-stone-800 h-2 rounded-full overflow-hidden flex">
+                <div id="gauge-s-bar" class="bg-amber-500 h-full transition-all duration-500" style="width: 50%"></div>
+                <div id="gauge-n-bar" class="bg-purple-500 h-full transition-all duration-500" style="width: 50%"></div>
+              </div>
+            </div>
+
+            <!-- T vs F -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] font-semibold text-stone-300">
+                <span>T (이성/영양비) <strong id="gauge-t-val">50%</strong></span>
+                <span><strong id="gauge-f-val">50%</strong> F (감정/소울)</span>
+              </div>
+              <div class="w-full bg-stone-800 h-2 rounded-full overflow-hidden flex">
+                <div id="gauge-t-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 50%"></div>
+                <div id="gauge-f-bar" class="bg-pink-500 h-full transition-all duration-500" style="width: 50%"></div>
+              </div>
+            </div>
+
+            <!-- J vs P -->
+            <div class="space-y-1">
+              <div class="flex justify-between text-[11px] font-semibold text-stone-300">
+                <span>J (계획/루틴) <strong id="gauge-j-val">50%</strong></span>
+                <span><strong id="gauge-p-val">50%</strong> P (자율/즉흥)</span>
+              </div>
+              <div class="w-full bg-stone-800 h-2 rounded-full overflow-hidden flex">
+                <div id="gauge-j-bar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 50%"></div>
+                <div id="gauge-p-bar" class="bg-teal-500 h-full transition-all duration-500" style="width: 50%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Part Culinary Analysis -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-stone-400">
+              🍲 당신이 이 음식인 이유 (상세 분석)
+            </h4>
+
+            <!-- 겉모습 -->
+            <div class="p-3.5 rounded-2xl bg-stone-950/60 border border-stone-800/80 space-y-1">
+              <div class="flex items-center gap-1.5 text-rose-400 font-bold text-xs">
+                <span>👀</span> 겉모습 (타인이 보는 나)
+              </div>
+              <p id="result-appearance" class="text-xs text-stone-300 leading-relaxed pl-5">
+                내용이 들어갑니다.
+              </p>
+            </div>
+
+            <!-- 속재료 -->
+            <div class="p-3.5 rounded-2xl bg-stone-950/60 border border-stone-800/80 space-y-1">
+              <div class="flex items-center gap-1.5 text-amber-400 font-bold text-xs">
+                <span>🥩</span> 속재료 (내면의 사고와 감정 처리)
+              </div>
+              <p id="result-ingredients" class="text-xs text-stone-300 leading-relaxed pl-5">
+                내용이 들어갑니다.
+              </p>
+            </div>
+
+            <!-- 끓이는 법 -->
+            <div class="p-3.5 rounded-2xl bg-stone-950/60 border border-stone-800/80 space-y-1">
+              <div class="flex items-center gap-1.5 text-indigo-400 font-bold text-xs">
+                <span>🔥</span> 끓이는 법 (스트레스 대처 및 휴식)
+              </div>
+              <p id="result-recipe" class="text-xs text-stone-300 leading-relaxed pl-5">
+                내용이 들어갑니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- Chemistry: Best & Worst Matches -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+            <!-- 환상의 꿀조합 -->
+            <div class="p-3.5 rounded-2xl bg-emerald-950/30 border border-emerald-900/40 space-y-1">
+              <span class="text-[11px] font-bold text-emerald-400 flex items-center gap-1">
+                <span>✨</span> 환상의 꿀조합 (케미)
+              </span>
+              <p id="result-best-match" class="text-xs font-bold text-stone-100">음식명 (MBTI)</p>
+              <p id="result-best-desc" class="text-[11px] text-stone-400 leading-relaxed">이유 설명</p>
+            </div>
+
+            <!-- 상극의 맛 -->
+            <div class="p-3.5 rounded-2xl bg-rose-950/30 border border-rose-900/40 space-y-1">
+              <span class="text-[11px] font-bold text-rose-400 flex items-center gap-1">
+                <span>⚡</span> 상극의 맛 (부딪히기 쉬운 맛)
+              </span>
+              <p id="result-worst-match" class="text-xs font-bold text-stone-100">음식명 (MBTI)</p>
+              <p id="result-worst-desc" class="text-[11px] text-stone-400 leading-relaxed">이유 설명</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-2.5">
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btn-save-image" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-stone-800 hover:bg-stone-700 text-stone-100 border border-stone-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>🖼️</span> 이미지로 저장
+            </button>
+            <button id="btn-copy-result" type="button" class="py-3 px-4 rounded-xl font-bold text-xs bg-stone-800 hover:bg-stone-700 text-stone-100 border border-stone-700 transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <span>📋</span> 결과 텍스트 복사
+            </button>
+          </div>
+          <button id="btn-restart" type="button" class="w-full py-3.5 px-6 rounded-2xl font-bold text-sm bg-gradient-to-r from-rose-600 to-amber-600 hover:opacity-95 text-white shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
+            <span>🔄 다시 테스트하기</span>
+          </button>
+        </div>
+
+      </section>
+
+    </div>
+
+    <!-- Bottom Footer -->
+    <footer class="py-3 px-5 border-t border-stone-900 bg-stone-950 text-center text-[11px] text-stone-500">
+      <span>Psychological Gourmet Curator &copy; MBTI Soul Food</span>
+    </footer>
+
+  </main>
+
+  <!-- 16 Food Encyclopedia Modal: Initially hidden with inline style to prevent any overlay bug -->
+  <div id="encyclopedia-modal" style="display: none;" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm items-center justify-center p-4">
+    <div class="bg-stone-950 border border-stone-800 w-full max-w-lg rounded-3xl max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+      <!-- Modal Header -->
+      <div class="p-4 border-b border-stone-800 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">📖</span>
+          <h3 class="text-sm font-bold text-white">16가지 소울 푸드 백과사전</h3>
+        </div>
+        <button id="close-encyclopedia-btn" type="button" class="w-7 h-7 rounded-full bg-stone-900 hover:bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center text-sm font-bold border border-stone-800 cursor-pointer">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Body (Grid of 16 foods) -->
+      <div id="encyclopedia-list" class="p-4 overflow-y-auto custom-scrollbar space-y-3">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-2xl bg-stone-100 text-stone-900 font-bold text-xs shadow-2xl transition-all duration-300 opacity-0 pointer-events-none transform translate-y-4">
+    알림 메시지
+  </div>
+
+  <!-- Hidden Canvas for Instagram/Share Card Export -->
+  <canvas id="export-canvas" width="800" height="1100" style="display: none;"></canvas>
+
+  <!-- Core App Scripts (Guaranteed execution order) -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
